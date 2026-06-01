@@ -3,51 +3,13 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 
 import "./TitleBar.css";
 
-// Types for the Window Controls Overlay API (Tauri 2 / web standard)
-interface WindowControlsOverlayEvent extends Event {
-  readonly visible: boolean;
-}
-
-interface WindowControlsOverlay {
-  readonly visible: boolean;
-  getTitlebarAreaRect(): DOMRect;
-  addEventListener(
-    type: "geometrychange",
-    listener: (e: WindowControlsOverlayEvent) => void,
-  ): void;
-  removeEventListener(
-    type: "geometrychange",
-    listener: (e: WindowControlsOverlayEvent) => void,
-  ): void;
-}
-
-declare global {
-  interface Navigator {
-    readonly windowControlsOverlay?: WindowControlsOverlay;
-  }
-}
-
 const TitleBar = () => {
   const win = getCurrentWindow();
   const [color, setColor] = useState<"light" | "dark">("light");
-  const [wcoSupported, setWcoSupported] = useState(false);
 
-  useEffect(() => {
-    const wco = navigator.windowControlsOverlay;
-    if (wco) {
-      setWcoSupported(wco.visible);
-
-      const handler = (e: WindowControlsOverlayEvent) => {
-        setWcoSupported(e.visible);
-      };
-      wco.addEventListener("geometrychange", handler);
-      return () => wco.removeEventListener("geometrychange", handler);
-    }
-  }, []);
-
-  const switchTitlebarColorScheme = () => {
-    setColor((previous) => (previous === "dark" ? "light" : "dark"));
-  };
+  // const switchTitlebarColorScheme = () => {
+  //   setColor((previous) => (previous === "dark" ? "light" : "dark"));
+  // };
 
   return (
     <div
@@ -74,7 +36,7 @@ const TitleBar = () => {
           id="hg-title-controls"
           style={{ color: color === "light" ? "#000" : "#fff" }}
         >
-          <div className="hg-title-btn" onClick={switchTitlebarColorScheme}>
+          {/* <div className="hg-title-btn" onClick={switchTitlebarColorScheme}>
             <svg
               fill="none"
               viewBox="0 0 24 24"
@@ -85,7 +47,7 @@ const TitleBar = () => {
                 fill="currentColor"
               />
             </svg>
-          </div>
+          </div> */}
 
           <div className="hg-title-btn" onClick={() => win.minimize()}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 12">
