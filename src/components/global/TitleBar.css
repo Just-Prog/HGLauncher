@@ -1,0 +1,35 @@
+#hg-title-title {
+  margin-left: 12px;
+  flex: 1;
+}
+
+#hg-title-controls > div {
+  border: 0px;
+  /* box-shadow: 4px black; */
+  padding: 2px;
+  height: 32px;
+  width: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 250ms;
+}
+
+#hg-title-controls > div:hover {
+  background-color: #00000020;
+}
+
+#hg-title-controls > div:last-child:hover {
+  background-color: #ff000090;
+}
+
+#hg-title-controls svg {
+  height: 16px;
+  width: 16px;
+}
+
+#hg-title-controls {
+  display: flex;
+  flex-direction: row;
+  line-height: 16px;
+}

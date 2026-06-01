@@ -14,7 +14,13 @@
       {
         "title": "hglauncher",
         "width": 1280,
-        "height": 720
+        "height": 720,
+        "decorations": false,
+        "transparent": true,
+        "minHeight": 720,
+        "minWidth": 1280,
+        "maxHeight": 720,
+        "maxWidth": 1280
       }
     ],
     "security": {
