@@ -15,7 +15,8 @@ const TitleBar = () => {
     <div
       id="hg-title-bar"
       style={{
-        backgroundColor: color === "light" ? "#0000000a" : "#ffffff0a",
+        backgroundColor: color === "light" ? "#ffffffc8" : "#000000c8",
+        backdropFilter: "blur(4px)",
         transition: "200ms",
       }}
     >

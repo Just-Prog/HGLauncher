@@ -1,6 +1,6 @@
 import { platform, version } from "@tauri-apps/plugin-os";
 
-import MainAppFrame from "./pages/Main";
+import MainBackground from "./pages/Background";
 import TitleBar from "./components/global/TitleBar";
 
 import "./App.css";
@@ -36,7 +36,7 @@ function App() {
     >
       <TitleBar />
       <main>
-        <MainAppFrame />
+        <MainBackground />
       </main>
     </div>
   );
