@@ -1,10 +1,11 @@
 import { platform, version } from "@tauri-apps/plugin-os";
 
-import MainBackground from "./pages/Background";
+import MainBackground from "./components/home/Background";
 import TitleBar from "./components/global/TitleBar";
 
 import "./App.css";
 import { useEffect } from "react";
+import MainApp from "./components/global/Main";
 
 function App() {
   const os = platform();
@@ -35,9 +36,7 @@ function App() {
       }}
     >
       <TitleBar />
-      <main>
-        <MainBackground />
-      </main>
+      <MainApp />
     </div>
   );
 }
