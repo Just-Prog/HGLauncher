@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const MainBackground = () => {
   const BGs = [BG_AK, BG_ENDFIELD, BG_PMPM, ""];
   const [url, setUrl] = useState(0);
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
   return (
     <main
       style={{
