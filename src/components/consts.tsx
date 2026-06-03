@@ -1,6 +1,6 @@
 // 游戏图标
 import ICON_AK from "@/assets/game/ak_icon.png";
-import ICON_ENFIELD from "@/assets/game/ak_icon.png";
+import ICON_ENFIELD from "@/assets/game/endfield_icon.png";
 import ICON_PMPM from "@/assets/game/popucom_icon.png";
 
 // 启动器背景
