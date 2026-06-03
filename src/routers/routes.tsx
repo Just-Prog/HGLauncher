@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import HomeView from "@/pages/Home";
 import { SideBarLayout } from "@/components/global/Sidebar";
+import AboutView from "@/components/about";
 
 const router = createBrowserRouter([
   {
@@ -9,6 +10,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomeView />,
+      },
+      {
+        path: "/about",
+        element: <AboutView />,
       },
     ],
   },
