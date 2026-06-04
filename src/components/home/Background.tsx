@@ -1,5 +1,4 @@
 import { BG_AK, BG_ENDFIELD, BG_PMPM } from "@/components/consts";
-import { useEffect, useState } from "react";
 
 const MainBackground = ({ current }: { current: number }) => {
   const BGs = [BG_AK, BG_ENDFIELD, BG_PMPM, ""];

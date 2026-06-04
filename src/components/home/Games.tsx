@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ICON_AK, ICON_ENFIELD, ICON_PMPM } from "../consts";
-
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 const GameSelectorItem = ({
   icon,
   desc,
@@ -37,7 +38,7 @@ const GameSelector = ({
   const [selectorExpanded, setSelectorExpanded] = useState<boolean>(false);
   return (
     <div
-      className="rounded-xl bg-white/78 backdrop-blur-[2px] flex flex-col ease-in-out transition-all duration-300"
+      className="rounded-xl bg-white/78 backdrop-blur-[2px] flex flex-col ease-in-out transition-all duration-300 overflow-clip"
       style={{
         transition: "width 0.5s ease, height 0.5s ease",
         interpolateSize: "allow-keywords",
@@ -61,8 +62,14 @@ const GameSelector = ({
           />
         ))
       ) : (
-        <GameSelectorItem icon={GameSelectorItems[currentGame]} desc={""} />
+        <GameSelectorItem
+          icon={GameSelectorItems[currentGame]}
+          desc={GameSelectorItemDescs_zh_CN[currentGame]}
+        />
       )}
+      <span className="absolute right-4 top-4 ">
+        {selectorExpanded ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+      </span>
     </div>
   );
 };

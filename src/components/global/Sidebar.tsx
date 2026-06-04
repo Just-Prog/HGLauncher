@@ -80,7 +80,7 @@ const SideBarLayout = () => {
   return (
     <div className="flex flex-1 flex-row pt-8">
       <SideBar />
-      <div className="w-full h-full flex-1">
+      <div className="w-full flex-1">
         <Outlet />
       </div>
     </div>
