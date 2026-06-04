@@ -10,10 +10,13 @@ const HomeView = () => {
       <div className="flex-1 flex w-full h-full">
         {/* 游戏切换器 */}
         <div className="absolute right-6 top-12 ">
-          <GameSelector setCurrentGame={setCurrentGame} />
+          <GameSelector
+            setCurrentGame={setCurrentGame}
+            currentGame={currentGame}
+          />
         </div>
         <div className="absolute right-6 bottom-6">
-          <div className="w-64 h-20 flex flex-1 justify-center items-center bg-white/65 backdrop-blur-sm overflow-clip rounded-xl hover:bg-white/85 ease-in-out">
+          <div className="w-64 h-20 flex flex-1 justify-center items-center bg-white/65 backdrop-blur-sm overflow-clip rounded-xl hover:bg-white/85 ease-in-out transition">
             <span className="font-bold text-xl">启动游戏</span>
           </div>
         </div>
