@@ -4,19 +4,19 @@ import { ICON_AK, ICON_ENFIELD, ICON_PMPM } from "../consts";
 const GameSelectorItem = ({
   icon,
   desc,
-  onClick,
+  onClick = () => {},
 }: {
   icon: string;
-  desc: string;
-  onClick: () => void;
+  desc: string | undefined;
+  onClick?: () => void;
 }) => {
   return (
     <div
-      className="overflow-clip gap-x-4 flex flex-row justify-start items-center"
+      className="overflow-clip gap-x-4 p-3 flex flex-row justify-start items-center hover:bg-gray-300/25"
       onClick={onClick}
     >
       <img className="rounded-lg w-8 h-8 object-cover" src={icon} alt="game" />
-      <span>{desc}</span>
+      {desc ? <span>{desc}</span> : null}
     </div>
   );
 };
@@ -36,7 +36,19 @@ const GameSelector = ({
   ];
   const [selectorExpanded, setSelectorExpanded] = useState<boolean>(false);
   return (
-    <div className="rounded-xl bg-white/78 backdrop-blur-[2px] flex flex-col gap-y-3 p-4 transition ease-in-out">
+    <div
+      className="rounded-xl bg-white/78 backdrop-blur-[2px] flex flex-col ease-in-out transition-all duration-300"
+      style={{
+        transition: "width 0.5s ease, height 0.5s ease",
+        interpolateSize: "allow-keywords",
+      }}
+      onMouseEnter={() => {
+        setSelectorExpanded(true);
+      }}
+      onMouseLeave={() => {
+        setSelectorExpanded(false);
+      }}
+    >
       {selectorExpanded ? (
         GameSelectorItems.map((v, k) => (
           <GameSelectorItem
@@ -44,19 +56,12 @@ const GameSelector = ({
             key={k}
             onClick={() => {
               setCurrentGame(k);
-              setSelectorExpanded(false);
             }}
             desc={GameSelectorItemDescs_zh_CN[k]}
           />
         ))
       ) : (
-        <GameSelectorItem
-          onClick={() => {
-            setSelectorExpanded(true);
-          }}
-          icon={GameSelectorItems[currentGame]}
-          desc={GameSelectorItemDescs_zh_CN[currentGame]}
-        />
+        <GameSelectorItem icon={GameSelectorItems[currentGame]} desc={""} />
       )}
     </div>
   );
