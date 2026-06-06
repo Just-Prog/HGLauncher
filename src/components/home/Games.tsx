@@ -38,11 +38,7 @@ const GameSelector = ({
   const [selectorExpanded, setSelectorExpanded] = useState<boolean>(false);
   return (
     <div
-      className="rounded-xl bg-white/78 backdrop-blur-[2px] flex flex-col ease-in-out transition-all duration-300 overflow-clip"
-      style={{
-        transition: "width 0.5s ease, height 0.5s ease",
-        interpolateSize: "allow-keywords",
-      }}
+      className="rounded-xl bg-white/78 backdrop-blur-[2px] flex flex-col overflow-clip relative"
       onMouseEnter={() => {
         setSelectorExpanded(true);
       }}
@@ -50,24 +46,25 @@ const GameSelector = ({
         setSelectorExpanded(false);
       }}
     >
-      {selectorExpanded ? (
-        GameSelectorItems.map((v, k) => (
+      {GameSelectorItems.map((v, k) => (
+        <div
+          key={k}
+          className="overflow-hidden transition-all duration-300 ease-in-out"
+          style={{
+            maxHeight: selectorExpanded || k === currentGame ? "3.5rem" : "0rem",
+            opacity: selectorExpanded || k === currentGame ? 1 : 0,
+          }}
+        >
           <GameSelectorItem
             icon={v}
-            key={k}
             onClick={() => {
               setCurrentGame(k);
             }}
             desc={GameSelectorItemDescs_zh_CN[k]}
           />
-        ))
-      ) : (
-        <GameSelectorItem
-          icon={GameSelectorItems[currentGame]}
-          desc={GameSelectorItemDescs_zh_CN[currentGame]}
-        />
-      )}
-      <span className="absolute right-4 top-4 ">
+        </div>
+      ))}
+      <span className="absolute right-4 top-4 pointer-events-none">
         {selectorExpanded ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
       </span>
     </div>
