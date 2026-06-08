@@ -5,6 +5,9 @@
 // }
 
 mod commands;
+mod consts;
+
+use commands::*;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -12,7 +15,7 @@ pub fn run() {
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_opener::init())
         // .invoke_handler(tauri::generate_handler![greet])
-        .invoke_handler(tauri::generate_handler![commands::test])
+        .invoke_handler(tauri::generate_handler![commandTest])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
