@@ -22,7 +22,7 @@ const HomeView = () => {
             <div
               className="h-20 flex flex-1 justify-center items-center bg-white/65 backdrop-blur-sm overflow-clip rounded-xl hover:bg-white/85 ease-in-out transition"
               onClick={async () => {
-                console.log(await invoke("commandTest"));
+                console.log(await invoke("command_test", { a: "b" }));
               }}
             >
               <span className="font-bold text-xl">启动游戏</span>
