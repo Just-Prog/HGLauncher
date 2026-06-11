@@ -4,6 +4,7 @@ use std::sync::{Arc, Mutex, OnceLock};
 use uuid::Uuid;
 
 use crate::utils::path::get_data_folder_path;
+use log::{error, info, warn};
 
 static APP_CONFIG: OnceLock<Arc<Mutex<AppConfig>>> = OnceLock::new();
 
@@ -17,16 +18,31 @@ fn config_path() -> &'static PathBuf {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+struct UIConfig {
+    pub last_opened_game: u8
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AppConfig {
     pub uuid: Uuid,
+    pub ui: UIConfig
 }
 
 impl AppConfig {
     /// 从 `config_path()` 加载配置；若文件不存在则生成默认配置并立即落盘。
+    /// 若文件已存在但缺少新增的配置项（例如升级后），自动将默认值补全到文件。
     pub fn load() -> Self {
         let path = config_path();
 
         let file_exists = path.exists();
+
+        // 预先读取原始文件内容，用于后续判断是否需要补全新增配置项
+        let original_content = if file_exists {
+            std::fs::read_to_string(path).ok()
+        } else {
+            None
+        };
+
         let settings = config::Config::builder()
             .add_source(
                 config::File::new(
@@ -37,7 +53,7 @@ impl AppConfig {
             )
             .build()
             .unwrap_or_else(|e| {
-                eprintln!("Failed to load config, using defaults: {e}");
+                warn!("Failed to load config, using defaults: {e}");
                 config::Config::default()
             });
 
@@ -47,12 +63,27 @@ impl AppConfig {
             .and_then(|s| Uuid::parse_str(&s).ok())
             .unwrap_or_else(Uuid::new_v4);
 
-        let config = Self { uuid };
+        let ui: UIConfig = settings.get("ui").ok().flatten().unwrap_or_else(|| {
+            UIConfig { last_opened_game: 0 }
+        });
 
-        // 首次运行时配置文件尚不存在，立即落盘
-        if !file_exists {
+        let config = Self { uuid, ui };
+
+        // 判断是否需要落盘：文件不存在 或 文件中缺少新增的配置项
+        let needs_save = if !file_exists {
+            true
+        } else if let Some(ref orig) = original_content {
+            let new_toml = toml::to_string_pretty(&config).unwrap_or_default();
+            let orig_val = toml::from_str::<toml::Value>(orig).ok();
+            let new_val = toml::from_str::<toml::Value>(&new_toml).ok();
+            orig_val != new_val
+        } else {
+            false
+        };
+
+        if needs_save {
             if let Err(e) = config.save() {
-                eprintln!("Failed to persist initial config: {e}");
+                error!("Failed to persist config: {e}");
             }
         }
 
@@ -91,7 +122,7 @@ impl AppConfig {
     pub fn save(&self) -> Result<(), Box<dyn std::error::Error>> {
         let path = config_path();
         let toml_str = toml::to_string_pretty(self)?;
-        println!("saving to {:?}\n{}", path, toml_str);
+        info!("saving to {:?}\n{}", path, toml_str);
         std::fs::write(path, toml_str)?;
         Ok(())
     }

@@ -12,9 +12,17 @@ mod utils;
 use commands::*;
 use config::AppConfig;
 use tauri::Manager;
+use utils::logging::DualLogger;
+use utils::path::get_data_folder_path;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // 在 Tauri 启动之前初始化日志系统
+    let data_dir = get_data_folder_path();
+    if let Err(e) = DualLogger::init(data_dir) {
+        eprintln!("Failed to initialize logger: {e}");
+    }
+
     tauri::Builder::default()
         .setup(|app| {
             let config = AppConfig::init_global();
